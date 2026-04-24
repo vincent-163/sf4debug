@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "sf4debug",
+    "name": "SkyFactory 4 Debug Port",
+    "description": "Exposes live Minecraft client state and player-input controls (view blocks/entities, walk, aim, attack, use items, click inventory slots, chat, etc.) over a loopback-only HTTP port for external debugging tools.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["telethon"],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

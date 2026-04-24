@@ -1,0 +1,69 @@
+// Forge 1.12.2 (14.23.5.2860) client-only debug-port mod.
+// ForgeGradle 3.x, Gradle 4.9, Java 8.
+
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net/' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
+
+version = '0.6.5'
+group   = 'com.telethon.sf4debug'
+archivesBaseName = 'sf4debug'
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+
+minecraft {
+    mappings channel: 'snapshot', version: '20171003-1.12'
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'info'
+            // Expose the debug HTTP port on a non-default port in dev so it
+            // can coexist with a prod client on the same box if needed.
+            property 'sf4debug.port', '25580'
+        }
+    }
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
+}
+
+jar {
+    manifest {
+        attributes([
+            'Specification-Title'     : 'sf4debug',
+            'Specification-Vendor'    : 'telethon',
+            'Specification-Version'   : '1',
+            'Implementation-Title'    : project.name,
+            'Implementation-Version'  : project.version,
+            'Implementation-Vendor'   : 'telethon',
+            'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+// Expand ${version} / ${mcversion} in mcmod.info at build time.
+processResources {
+    // The build version changes -> re-run processResources. Otherwise Gradle
+    // keeps a stale copy in the task output cache.
+    inputs.property 'version', project.version
+    inputs.property 'mcversion', '1.12.2'
+
+    filesMatching('mcmod.info') {
+        expand 'version': project.version, 'mcversion': '1.12.2'
+    }
+}
+
+// reobfJar: remap dev (MCP names) -> runtime (SRG names) for the published jar.
+jar.finalizedBy('reobfJar')

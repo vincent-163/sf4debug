@@ -1,0 +1,42 @@
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# vscode
+.vscode/
+
+# gradle
+build
+.gradle
+
+# other
+eclipse
+run
+
+# Files from Forge MDK
+forge*changelog.txt
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+build.log
+
+# Local bundled JDK (download separately; do not commit binaries)
+jdk8/
+
+# Build artifacts at project root (mcmod.info belongs under src/main/resources/)
+/META-INF/
